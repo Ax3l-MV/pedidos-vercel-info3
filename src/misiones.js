@@ -68,7 +68,28 @@ export function puedeTransicionar(actual, nuevo) {
 //                         correo: algo@algo.algo   (el email es opcional)
 // Pista: '55 1234-5678'.replace(/[\s-]/g, '')   y   /^\d{10}$/.test(...)
 export function validarCliente(cliente) {
-  return [] // TODO
+  const errores = [];
+
+  // 1. Validar nombre: si está vacío o solo tiene espacios
+  if (!cliente.nombre || cliente.nombre.trim() === '') {
+    errores.push('nombre_requerido');
+  }
+
+  // 2. Validar teléfono: quitar espacios/guiones y verificar que sean 10 dígitos
+  const telefonoLimpio = cliente.telefono ? String(cliente.telefono).replace(/[\s-]/g, '') : '';
+  if (!/^\d{10}$/.test(telefonoLimpio)) {
+    errores.push('telefono_invalido');
+  }
+
+  // 3. Validar email: es opcional, pero si viene, debe tener forma de correo (algo@algo.algo)
+  if (cliente.email && cliente.email.trim() !== '') {
+    const formatoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formatoEmail.test(cliente.email)) {
+      errores.push('email_invalido');
+    }
+  }
+
+  return errores;
 }
 
 // ----------------------------------------------------------------------------
