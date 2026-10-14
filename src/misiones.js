@@ -104,7 +104,7 @@ export function resumenPorEstado(pedidos) {
     entregado: 0
   };
 
-  for(const pedido of pedido){
+  for(const pedido of pedidos){
     if(resumen.hasOwnProperty(pedido.estado)){
       resumen[pedido.estado] += 1;
     }
