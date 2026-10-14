@@ -75,13 +75,11 @@ export function validarCliente(cliente) {
     errores.push('nombre_requerido');
   }
 
-  // 2. Validar teléfono: quitar espacios/guiones y verificar que sean 10 dígitos
   const telefonoLimpio = cliente.telefono ? String(cliente.telefono).replace(/[\s-]/g, '') : '';
   if (!/^\d{10}$/.test(telefonoLimpio)) {
     errores.push('telefono_invalido');
   }
 
-  // 3. Validar email: es opcional, pero si viene, debe tener forma de correo (algo@algo.algo)
   if (cliente.email && cliente.email.trim() !== '') {
     const formatoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formatoEmail.test(cliente.email)) {
@@ -99,7 +97,20 @@ export function validarCliente(cliente) {
 //   { registrado: 3, en_preparacion: 3, listo: 2, entregado: 2 }
 // Con una lista vacía, todos van en 0.
 export function resumenPorEstado(pedidos) {
-  return {} // TODO
+  const resumen = {
+    registrado: 0,
+    en_preparacion: 0,
+    listo: 0,
+    entregado: 0
+  };
+
+  for(const pedido of pedido){
+    if(resumen.hasOwnProperty(pedido.estado)){
+      resumen[pedido.estado] += 1;
+    }
+  }
+
+  return resumen; // TODO
 }
 
 // ----------------------------------------------------------------------------
